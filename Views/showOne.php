@@ -1,8 +1,8 @@
 <div>
 <?php
-print("<p> First Name: ". $user->firstName . "</p>");
-print("<p> Last Name: ". $user->lastName . "</p>");
-print("<p> Age: ". $user->age . "</p>");
+echo '<p> First Name: '.$user->firstName.'</p>';
+echo '<p> Last Name: '.$user->lastName.'</p>';
+echo '<p> Age: '.$user->age.'</p>';
 
 ?>
 </div>

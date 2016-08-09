@@ -15,16 +15,16 @@
 
   </tr>
   <?php
-foreach($users as $user){
-    print("<tr>");
-    print("<td>". $user->firstName . "</td>");
-    print("<td>". $user->username . "</td>");
-    print("<td>". $user->age . "</td>");
-    print("<td>". $user->lastName . "</td>");
-    print('<td> <a href="/Controllers/UserController.php?route=update&id='.$user->id .'"> Edit </a>');
-    print('<td> <a href="/Controllers/UserController.php?route=showOne&id='.$user->id .'"> View </a>');
-    print('<td> <a href="/Controllers/UserController.php?route=delete&id='.$user->id .'"> Delete </a>');
-    print("</tr>");
-}
+    foreach ($users as $user) {
+        echo '<tr>';
+        echo '<td>'.$user->firstName.'</td>';
+        echo '<td>'.$user->username.'</td>';
+        echo '<td>'.$user->age.'</td>';
+        echo '<td>'.$user->lastName.'</td>';
+        echo '<td> <a href="/Controllers/UserController.php?route=update&id='.$user->id.'"> Edit </a>';
+        echo '<td> <a href="/Controllers/UserController.php?route=showOne&id='.$user->id.'"> View </a>';
+        echo '<td> <a href="/Controllers/UserController.php?route=delete&id='.$user->id.'"> Delete </a>';
+        echo '</tr>';
+    }
 ?>
 </table>
