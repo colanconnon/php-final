@@ -1,0 +1,14 @@
+{
+    "require-dev": {
+        "mockery/mockery": "dev-master",
+        "phpunit/phpunit": "5.5.*"
+    },
+    "require": {
+        "fzaninotto/faker": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyLibrary\\": "Models/"
+        }
+    }
+}
