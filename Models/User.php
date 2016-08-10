@@ -3,6 +3,7 @@
 namespace Models {
 
     use PDO;
+    require_once dirname(__FILE__)."/../Models/databaseglobals.php";
 
     class User
     {
@@ -11,14 +12,12 @@ namespace Models {
         public $firstName;
         public $lastName;
         public $age;
-        private static $CONNECTION_STRING = 'mysql:host=127.0.0.1:33060;dbname=PhpFinal;charset=utf8';
-        private static $dbUsername = 'homestead';
-        private static $dbPassword = 'secret';
+
         private $errors = [];
 
         public static function find($id)
         {
-            $connection = new PDO(self::$CONNECTION_STRING, self::$dbUsername, self::$dbPassword);
+            $connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
             $statement = $connection->prepare('Select * FROM Users WHERE id = :id');
             $statement->execute([
             ':id' => $id,
@@ -40,7 +39,7 @@ namespace Models {
 
         public static function findAll()
         {
-            $connection = new PDO(self::$CONNECTION_STRING, self::$dbUsername, self::$dbPassword);
+            $connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
             $statement = $connection->prepare('Select * FROM Users');
             $statement->execute();
             $results = $statement->fetchAll();
@@ -60,9 +59,9 @@ namespace Models {
 
         public function save()
         {
+            $connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
             if ($this->validate()) {
                 if (empty($this->id)) {
-                    $connection = new PDO(self::$CONNECTION_STRING, self::$dbUsername, self::$dbPassword);
                     $statement = $connection->prepare('INSERT INTO Users
                     (username,
                     firstname,
@@ -83,7 +82,6 @@ namespace Models {
 
                     return true;
                 } else {
-                    $connection = new PDO(self::$CONNECTION_STRING, self::$dbUsername, self::$dbPassword);
                     $statement = $connection->prepare('UPDATE Users
                     SET
                     username = :username,
@@ -107,7 +105,7 @@ namespace Models {
 
         public function destroy()
         {
-            $connection = new PDO(self::$CONNECTION_STRING, self::$dbUsername, self::$dbPassword);
+            $connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
             $statement = $connection->prepare('DELETE FROM Users WHERE id = :id');
             $statement->bindParam(':id', $this->id);
             $statement->execute();
