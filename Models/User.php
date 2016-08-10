@@ -115,6 +115,7 @@ namespace Models {
 
         public function validate()
         {
+            $this->errors = [];
             if (empty($this->username)) {
                 array_push($this->errors, 'username is required.');
             }
