@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__)."/databaseglobals.php";
 require_once dirname(__FILE__)."/UserDatabaseRepository.php";
+require_once dirname(__FILE__)."/User.php";
+use Models\User as User;
 
 class UserDatabaseRepositoryClass implements UserDatabaseRepository {
     private $connection;
@@ -13,7 +15,7 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
         $results = $statement->fetchAll();
         $users = [];
         foreach ($results as $row) {
-            $user = new self();
+            $user = new User();
             $user->id = $row['id'];
             $user->username = $row['username'];
             $user->firstName = $row['firstname'];
@@ -45,9 +47,9 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
         }
     }
     
-    public function Save($user) {
+    public function Save(&$user) {
         if($user->validate()) {
-            if (empty($this->id)) {
+            if (empty($user->id)) {
                 $statement = $this->connection->prepare('INSERT INTO Users
                 (username,
                 firstname,
@@ -58,13 +60,13 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
                 :firstname,
                 :lastname,
                 :age)');
-                $statement->bindParam(':username', $this->username);
-                $statement->bindParam(':firstname', $this->firstName);
-                $statement->bindParam(':lastname', $this->lastName);
-                $statement->bindParam(':age', $this->age);
+                $statement->bindParam(':username', $user->username);
+                $statement->bindParam(':firstname', $user->firstName);
+                $statement->bindParam(':lastname', $user->lastName);
+                $statement->bindParam(':age', $user->age);
                 
                 $statement->execute();
-                $this->id = $this->connection->lastInsertId();
+                $user->id = $this->connection->lastInsertId();
                 
                 return true;
             } else {
@@ -75,11 +77,11 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
                 lastname = :lastname,
                 age = :age
                 WHERE id = :id');
-                $statement->bindParam(':username', $this->username);
-                $statement->bindParam(':firstname', $this->firstName);
-                $statement->bindParam(':lastname', $this->lastName);
-                $statement->bindParam(':age', $this->age);
-                $statement->bindParam(':id', $this->id);
+                $statement->bindParam(':username', $user->username);
+                $statement->bindParam(':firstname', $user->firstName);
+                $statement->bindParam(':lastname', $user->lastName);
+                $statement->bindParam(':age', $user->age);
+                $statement->bindParam(':id', $user->id);
                 $statement->execute();
                 
                 return true;
@@ -91,7 +93,7 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
     
     public function Destroy($id){
         $statement = $this->connection->prepare('DELETE FROM Users WHERE id = :id');
-        $statement->bindParam(':id', $this->id);
+        $statement->bindParam(':id', $id);
         $statement->execute();
     }
     
