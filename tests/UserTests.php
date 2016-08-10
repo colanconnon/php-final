@@ -2,6 +2,7 @@
 require_once dirname(__FILE__)."/../Models/User.php";
 use PHPUnit\Framework\TestCase;
 use Models\User as User;
+
 class UserTest extends TestCase
 {
     public function testTest()
@@ -25,14 +26,14 @@ class UserTest extends TestCase
         //check the model isn't valid
         $this->assertEquals($user->validate(), false);
         //check that all errors in the array
-        $this->assertEquals(in_array($errors[0], $user->getErrors()), true );
-        $this->assertEquals(in_array($errors[1], $user->getErrors()), true );
-        $this->assertEquals(in_array($errors[2], $user->getErrors()), true );
-        $this->assertEquals(in_array($errors[3], $user->getErrors()), true );
+        $this->assertEquals(in_array($errors[0], $user->getErrors()), true);
+        $this->assertEquals(in_array($errors[1], $user->getErrors()), true);
+        $this->assertEquals(in_array($errors[2], $user->getErrors()), true);
+        $this->assertEquals(in_array($errors[3], $user->getErrors()), true);
         //set the properties and make sure the error doesn't exist.
         $user->username = $faker->userName;
         $user->validate();
-        $this->assertEquals(in_array($errors[0], $user->getErrors()), false );
+        $this->assertEquals(in_array($errors[0], $user->getErrors()), false);
         
         $user->firstName = $faker->firstName;
         $user->validate();
@@ -48,8 +49,5 @@ class UserTest extends TestCase
 
         //assert that validation passes
         $this->assertEquals($user->validate(), true);
-        
     }
-
-    
 }

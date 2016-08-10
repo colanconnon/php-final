@@ -4,12 +4,15 @@ require_once dirname(__FILE__)."/UserDatabaseRepository.php";
 require_once dirname(__FILE__)."/User.php";
 use Models\User as User;
 
-class UserDatabaseRepositoryClass implements UserDatabaseRepository {
+class UserDatabaseRepositoryClass implements UserDatabaseRepository
+{
     private $connection;
-    function __construct() {
+    public function __construct()
+    {
         $this->connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
     }
-    public function FindAll() {
+    public function FindAll()
+    {
         $statement = $this->connection->prepare('Select * FROM Users');
         $statement->execute();
         $results = $statement->fetchAll();
@@ -27,7 +30,8 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
         return $users;
     }
     
-    public function Find($id) {
+    public function Find($id)
+    {
         $statement = $this->connection->prepare('Select * FROM Users WHERE id = :id');
         $statement->execute([
         ':id' => $id
@@ -47,8 +51,9 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
         }
     }
     
-    public function Save(&$user) {
-        if($user->validate()) {
+    public function Save(&$user)
+    {
+        if ($user->validate()) {
             if (empty($user->id)) {
                 $statement = $this->connection->prepare('INSERT INTO Users
                 (username,
@@ -91,10 +96,10 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository {
         }
     }
     
-    public function Destroy($id){
+    public function Destroy($id)
+    {
         $statement = $this->connection->prepare('DELETE FROM Users WHERE id = :id');
         $statement->bindParam(':id', $id);
         $statement->execute();
     }
-    
 }

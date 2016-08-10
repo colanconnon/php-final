@@ -1,6 +1,7 @@
 <?php
 
-interface UserDatabaseRepository {
+interface UserDatabaseRepository
+{
     public function FindAll();
     public function Find($id);
     public function Save(&$user);

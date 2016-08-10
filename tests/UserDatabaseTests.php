@@ -10,7 +10,8 @@ class UserDatabaseTest extends TestCase
 {
     private $userDatabaseRepo;
     private $userDatabaseRepositoryMock;
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
         $this->userDatabaseRepo = new UserDatabaseRepositoryClass();
@@ -19,7 +20,8 @@ class UserDatabaseTest extends TestCase
         $statement->execute();
         $this->setUpMocking();
     }
-    public function setUpMocking(){
+    public function setUpMocking()
+    {
         $faker = Faker\Factory::create();
         $this->userDatabaseRepositoryMock = m::mock('UserDatabaseRepository');
         $user = new User();
@@ -29,20 +31,20 @@ class UserDatabaseTest extends TestCase
         $user->age= $faker->randomDigitNotNull;
         $user->id = 1;
         $this->usersArray = [$user];
-        $this->userDatabaseRepositoryMock->shouldReceive('FindAll')->andReturnUsing(function(){
+        $this->userDatabaseRepositoryMock->shouldReceive('FindAll')->andReturnUsing(function () {
             return $this->usersArray;
         });
-        $this->userDatabaseRepositoryMock->shouldReceive('Find')->andReturnUsing(function($id) {
-            foreach($this->usersArray as $row) {
-                if($row->id == $id){
+        $this->userDatabaseRepositoryMock->shouldReceive('Find')->andReturnUsing(function ($id) {
+            foreach ($this->usersArray as $row) {
+                if ($row->id == $id) {
                     return $row;
                 }
             }
             return null;
         });
-        $this->userDatabaseRepositoryMock->shouldReceive('Save')->andReturnUsing(function($user){
-            if($user->validate()) {
-                if(empty($user->id)){
+        $this->userDatabaseRepositoryMock->shouldReceive('Save')->andReturnUsing(function ($user) {
+            if ($user->validate()) {
+                if (empty($user->id)) {
                     $user->id = 2;
                     array_push($this->usersArray, $user);
                 }
@@ -51,11 +53,11 @@ class UserDatabaseTest extends TestCase
                 return false;
             }
         });
-        $this->userDatabaseRepositoryMock->shouldReceive('Destroy')->andReturnUsing(function($id){
-            foreach($this->usersArray as $row) {
-                if($row->id == $id){
+        $this->userDatabaseRepositoryMock->shouldReceive('Destroy')->andReturnUsing(function ($id) {
+            foreach ($this->usersArray as $row) {
+                if ($row->id == $id) {
                     $userKey = array_search($row, $this->usersArray);
-                    if($userKey != null) {
+                    if ($userKey != null) {
                         unset($this->usersArray[$userKey]);
                     }
                 }
@@ -64,7 +66,8 @@ class UserDatabaseTest extends TestCase
             
         });
     }
-    public function testDatabaseOperations(){
+    public function testDatabaseOperations()
+    {
         $faker = Faker\Factory::create();
         $this->assertTrue(empty($this->userDatabaseRepo->FindAll()));
         $user = new User();
@@ -84,7 +87,8 @@ class UserDatabaseTest extends TestCase
         $this->assertEquals(count($this->userDatabaseRepo->FindAll()), 0);
     }
     
-    public function testMockDatabaseOperations() {
+    public function testMockDatabaseOperations()
+    {
         $this->assertEquals(count($this->userDatabaseRepositoryMock->FindAll()), 1);
         $this->assertEquals($this->userDatabaseRepositoryMock->Find(1)->id, 1);
         $faker = Faker\Factory::create();
@@ -105,5 +109,4 @@ class UserDatabaseTest extends TestCase
         $this->userDatabaseRepositoryMock->Destroy(2);
         $this->assertEquals(count($this->userDatabaseRepositoryMock->FindAll()), 1);
     }
-    
 }

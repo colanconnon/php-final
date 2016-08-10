@@ -3,6 +3,7 @@
 namespace Models {
 
     use PDO;
+
     require_once dirname(__FILE__)."/../Models/databaseglobals.php";
 
     class User
