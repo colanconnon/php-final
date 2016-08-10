@@ -1,22 +1,24 @@
 <?php
-
-require_once '../Models/User.php';
+require_once dirname(__FILE__)."/../Models/User.php";
+require_once dirname(__FILE__)."/../Models/UserDatabaseRepositoryClass.php";
 use Models\User as User;
 
 class UserController
 {
+    protected $userDatabaseRepo;
     public function __construct()
     {
+        $this->userDatabaseRepo = new UserDatabaseRepositoryClass();
     }
     public function show()
     {
-        $users = User::findAll();
+        $users = $this->userDatabaseRepo->findAll();
         include_once '../Views/show.php';
     }
 
     public function showOne($id)
     {
-        $user = User::find($id);
+        $user = $this->userDatabaseRepo->find($id);
         include_once '../Views/showOne.php';
     }
     public function showInsertForm()
@@ -26,7 +28,7 @@ class UserController
     }
     public function insert($user)
     {
-        if ($user->save()) {
+        if ($this->userDatabaseRepo->save($user)) {
             header('Location: /Controllers/UserController.php?route=showOne&id='.$user->id);
             exit();
         } else {
@@ -36,7 +38,7 @@ class UserController
     }
     public function showUpdateForm($id)
     {
-        $user = User::find($id);
+        $user = $this->userDatabaseRepo->find($id);
         if ($user != null) {
             include_once '../Views/update.php';
         } else {
@@ -45,7 +47,7 @@ class UserController
     }
     public function update($user)
     {
-        if ($user->save()) {
+        if ($this->userDatabaseRepo->save($user)) {
             header('Location: /Controllers/UserController.php?route=showOne&id='.$user->id);
             exit();
         } else {
@@ -55,7 +57,7 @@ class UserController
     }
     public function deleteForm($id)
     {
-        $user = User::find($id);
+        $user = $this->userDatabaseRepo->find($id);
         if ($user != null) {
             include_once '../Views/delete.php';
         } else {
@@ -64,10 +66,10 @@ class UserController
     }
     public function delete($id)
     {
-        $user = User::find($id);
+        $user = $this->userDatabaseRepo->find($id);
         if ($user != null) {
-            $user->destroy();
-            header('Location: /Controllers/UserController.php?route=showOne&id='.$user->id);
+            $this->userDatabaseRepo->destroy($id);
+            header('Location: /Controllers/UserController.php?route=show');
         }
     }
 }
