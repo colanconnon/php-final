@@ -3,6 +3,9 @@ require_once dirname(__FILE__)."/../Models/User.php";
 use PHPUnit\Framework\TestCase;
 use Models\User as User;
 
+/**
+*   A Test class for testing basic functionality of the user class.
+*/
 class UserTest extends TestCase
 {
     public function testTest()
@@ -14,7 +17,9 @@ class UserTest extends TestCase
         $user->age = $faker->randomDigitNotNull;
         $this->assertNotNull($user->age);
     }
-    
+    /*
+    *  Test that the validation logic works
+    */
     public function testValidation()
     {
         $faker = Faker\Factory::create();

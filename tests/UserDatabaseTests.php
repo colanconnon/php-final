@@ -5,11 +5,20 @@ require_once dirname(__FILE__)."/../Models/UserDatabaseRepositoryClass.php";
 use PHPUnit\Framework\TestCase;
 use Models\User as User;
 use \Mockery as m;
-
+/*
+*   A test class that implements testing all the user database interactions
+* 
+*/
 class UserDatabaseTest extends TestCase
 {
+    /** @type UserDatabaseRepositoryClass  */
     private $userDatabaseRepo;
+    /** @type Mock A mock for testing all the functionality of the user database class */
     private $userDatabaseRepositoryMock;
+
+    /**
+    * Setup all the testing, and delete the data from the database.
+    */
     public function setUp()
     {
         parent::setUp();
@@ -20,6 +29,9 @@ class UserDatabaseTest extends TestCase
         $statement->execute();
         $this->setUpMocking();
     }
+    /*
+    * Set up the mock object and all the methods on it
+    */
     public function setUpMocking()
     {
         $faker = Faker\Factory::create();
@@ -66,6 +78,9 @@ class UserDatabaseTest extends TestCase
             
         });
     }
+    /*
+    * Test all the database operations against the database
+    */
     public function testDatabaseOperations()
     {
         $faker = Faker\Factory::create();
@@ -87,6 +102,9 @@ class UserDatabaseTest extends TestCase
         $this->assertEquals(count($this->userDatabaseRepo->FindAll()), 0);
     }
     
+    /*
+    * Test the Mock operations of the data access object.
+    */
     public function testMockDatabaseOperations()
     {
         $this->assertEquals(count($this->userDatabaseRepositoryMock->FindAll()), 1);

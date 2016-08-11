@@ -5,7 +5,10 @@ namespace Models {
     use PDO;
 
     require_once dirname(__FILE__)."/../Models/databaseglobals.php";
-
+    /*
+    * A user class that represents the user database table
+    * 
+    */
     class User
     {
         /** @type int primary key in the database*/
