@@ -31,6 +31,5 @@ class UserTest extends \Codeception\Test\Unit
         $user->age= $this->faker->randomDigitNotNull;
 
         $this->assertTrue($user->validate());
-        
     }
 }

@@ -2,6 +2,7 @@
 require_once dirname(__FILE__)."/../Models/User.php";
 require_once dirname(__FILE__)."/../Models/UserDatabaseRepositoryClass.php";
 use Models\User as User;
+
 /*
 * A controller that contains all the crud actions for a user.
 */
@@ -11,7 +12,6 @@ class UserController
     protected $userDatabaseRepo;
     public function __construct()
     {
-        
         $this->userDatabaseRepo = new UserDatabaseRepositoryClass();
     }
     /*
@@ -35,7 +35,7 @@ class UserController
     }
     /*
     *   Show the insert form
-    */ 
+    */
     public function showInsertForm()
     {
         $user = new User();

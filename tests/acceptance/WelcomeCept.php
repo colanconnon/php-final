@@ -4,4 +4,3 @@
     $I->amOnPage('/UserController.php?route=show');
     $I->see('Insert a new User');
     $I->see('first name');
-?>

@@ -5,6 +5,7 @@ require_once dirname(__FILE__)."/../Models/UserDatabaseRepositoryClass.php";
 use PHPUnit\Framework\TestCase;
 use Models\User as User;
 use \Mockery as m;
+
 /*
 *   A test class that implements testing all the user database interactions
 * 

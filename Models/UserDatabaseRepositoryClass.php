@@ -7,6 +7,7 @@ require_once dirname(__FILE__)."/UserDatabaseRepository.php";
 require_once dirname(__FILE__)."/User.php";
 
 use Models\User as User;
+
 /**
 * This class is an implementation of the UserDatabaseRepositoryClass
 
