@@ -8,15 +8,25 @@ namespace Models {
 
     class User
     {
+        /** @type int primary key in the database*/
         public $id;
+        /** @type string username of the user */
         public $username;
+        /** @type string first name of the user */
         public $firstName;
+        /** @type lastname of the user */
         public $lastName;
+        /** @type int age of the user */
         public $age;
 
+        /** @type array array of arrays */
         private $errors = [];
 
-
+        /**
+        * function to validate the properties of the odbc_fetch_object
+        *
+        *@return bool Returns whether or not the object is valid.
+        */
         public function validate()
         {
             $this->errors = [];
@@ -38,6 +48,10 @@ namespace Models {
 
             return true;
         }
+
+        /**
+        * @return the array of errors that the validate function generated
+        */
         public function getErrors()
         {
             return $this->errors;

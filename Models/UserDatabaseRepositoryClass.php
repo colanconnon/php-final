@@ -1,16 +1,31 @@
 <?php
+/**Include the database globals so this class has access  **/
 require_once dirname(__FILE__)."/databaseglobals.php";
+/**Include the UserDatabaseRepository Interface  **/
 require_once dirname(__FILE__)."/UserDatabaseRepository.php";
+/** Include the user class  **/
 require_once dirname(__FILE__)."/User.php";
-use Models\User as User;
 
+use Models\User as User;
+/**
+* This class is an implementation of the UserDatabaseRepositoryClass
+
+*/
 class UserDatabaseRepositoryClass implements UserDatabaseRepository
 {
+    /** @type PDO the pdo connection that this class uses to access the database */
     private $connection;
     public function __construct()
     {
         $this->connection = new PDO(CONNECTION_STRING, dbUsername, dbPassword);
     }
+    /**
+    * Returns all the user objects.
+    *
+    *
+    *
+    * @return array $users An Array of all the users in the database
+    */
     public function FindAll()
     {
         $statement = $this->connection->prepare('Select * FROM Users');
@@ -29,7 +44,13 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository
         
         return $users;
     }
-    
+    /**
+    * Find a user by id in the database.
+    *
+    * @param int $id The id of the user you want to find from the database.
+    *
+    * @return User $user User object corresponding to the id passed in
+    */
     public function Find($id)
     {
         $statement = $this->connection->prepare('Select * FROM Users WHERE id = :id');
@@ -51,6 +72,13 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository
         }
     }
     
+    /**
+    * This method saves a user to the database if the id is set, if not then it updates the user.
+    *
+    * @param User $user A user object that you want to save or update in the database
+    *
+    * @return bool based on if the save worked.
+    */
     public function Save(&$user)
     {
         if ($user->validate()) {
@@ -95,7 +123,13 @@ class UserDatabaseRepositoryClass implements UserDatabaseRepository
             return false;
         }
     }
-    
+    /**
+    * This method deletes an object from the database.
+    *
+    * @param int $id.
+    *
+    * @return void
+    */
     public function Destroy($id)
     {
         $statement = $this->connection->prepare('DELETE FROM Users WHERE id = :id');

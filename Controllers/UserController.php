@@ -5,27 +5,45 @@ use Models\User as User;
 
 class UserController
 {
+    //* @type UserDatabaseRepositoryClass Data access class */
     protected $userDatabaseRepo;
     public function __construct()
     {
+        
         $this->userDatabaseRepo = new UserDatabaseRepositoryClass();
     }
+    /*
+    * Gets all the users in the database and renders a php file. 
+    *
+    *
+    */
     public function show()
     {
         $users = $this->userDatabaseRepo->findAll();
         include_once '../Views/show.php';
     }
 
+    /*
+    * Get one user from the database
+    */
     public function showOne($id)
     {
         $user = $this->userDatabaseRepo->find($id);
         include_once '../Views/showOne.php';
     }
+    /*
+    *   Show the insert form
+    */ 
     public function showInsertForm()
     {
         $user = new User();
         include_once '../Views/insert.php';
     }
+    /*
+    * Handle the post of the insert form
+    *
+    *
+    */
     public function insert($user)
     {
         if ($this->userDatabaseRepo->save($user)) {
@@ -36,6 +54,10 @@ class UserController
             include_once '../Views/insert.php';
         }
     }
+    /*
+    * Show the update form
+    *
+    */
     public function showUpdateForm($id)
     {
         $user = $this->userDatabaseRepo->find($id);
@@ -45,6 +67,11 @@ class UserController
             include_once '../Views/error.php';
         }
     }
+    /*
+    * Update the user in the data from a post
+    *
+    *
+    */
     public function update($user)
     {
         if ($this->userDatabaseRepo->save($user)) {
@@ -55,6 +82,10 @@ class UserController
             include_once '../Views/update.php';
         }
     }
+
+    /*
+    * Show the delete form.
+    */
     public function deleteForm($id)
     {
         $user = $this->userDatabaseRepo->find($id);
@@ -64,6 +95,10 @@ class UserController
             include_once '../Views/error.php';
         }
     }
+
+    /*
+    * Handle a post and delete the item from the database.
+    */
     public function delete($id)
     {
         $user = $this->userDatabaseRepo->find($id);
